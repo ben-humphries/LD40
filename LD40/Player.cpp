@@ -8,7 +8,7 @@ Player::Player()
 {
 
 	this->setPosition(200, 200);
-	this->setScale(2.5, 2.5);
+	this->setScale(1.5, 1.5);
 	this->setOrigin(16, 16);
 
 	light.setPosition(this->getPosition().x, this->getPosition().y);
@@ -89,6 +89,5 @@ void Player::handleInput(sf::Event e) {
 	else if (e.type == sf::Event::MouseWheelScrolled) {
 
 		lightIntensity += e.mouseWheelScroll.delta * lightScrollSpeed;
-		printf("here");
 	}
 }

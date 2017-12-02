@@ -90,7 +90,7 @@ void Game::Update() {
 
 	player->boundCollision(g2);
 
-	window.clear(sf::Color(255,255,255,255));
+	window.clear(sf::Color(200,200,200,255));
 	lightMapTexture.clear(sf::Color(5, 5, 5));
 
 	for (int i = 0; i < Game::lights.size(); i++) {

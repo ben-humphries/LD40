@@ -12,7 +12,7 @@ public:
 	void update(float dt);
 	void handleInput(sf::Event e);
 
-	const float speed = 500;
+	const float speed = 300;
 	sf::Vector2f velocity = sf::Vector2f(0, 0);
 
 	bool movingRight, movingLeft;
