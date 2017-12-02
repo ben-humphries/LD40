@@ -24,6 +24,8 @@ sf::Sprite lightMap;
 Level level;
 
 
+
+
 void Game::Start() {
 
 	gameState = Uninitialized;
@@ -85,6 +87,7 @@ void Game::Update() {
 
 	std::vector<Tile*> levelTiles = level.getTiles();
 	std::vector<Light*> levelLights = level.getLights();
+	std::vector<Enemy*> enemies = level.getEnemies();
 
 	player->update(dt);
 
@@ -119,6 +122,11 @@ void Game::Update() {
 	
 	for (int i = 0; i < levelTiles.size(); i++) {
 		window.draw(*levelTiles[i]);
+	}
+
+	for (int i = 0; i < enemies.size(); i++) {
+		enemies[i]->followPlayer(player, dt);
+		window.draw(*enemies[i]);
 	}
 
 	window.draw(lightMap, sf::BlendMultiply);

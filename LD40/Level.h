@@ -2,7 +2,7 @@
 #include <string>
 #include "Tile.h"
 #include "Light.h"
-//#include "Enemy.h"
+#include "Enemy.h"
 
 class Level
 {
@@ -12,7 +12,7 @@ public:
 
 	void load(std::string dir);
 	std::vector<Tile*> getTiles();
-	//std::vector<Enemy> * getEnemies();
+	std::vector<Enemy*> getEnemies();
 	std::vector<Light*> getLights();
 
 	sf::Vector2f getPlayerStart();
@@ -20,7 +20,7 @@ public:
 	sf::Vector2f playerStart;
 
 	std::vector<Tile*> tiles;
-	//std::vector<Enemy> enemies;
+	std::vector<Enemy*> enemies;
 	std::vector<Light*> lights;
 };
 

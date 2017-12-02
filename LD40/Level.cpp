@@ -39,7 +39,7 @@ void Level::load(std::string dir) {
 			tiles.push_back(new Tile(1, sf::Vector2f(i % height, i / height), sf::Vector2f(1.5, 1.5)));
 		}
 		else if (currentPixel == ENEMY) {
-			//enemies.push_back(Enemy(id, pos, scale));
+			enemies.push_back(new Enemy("res/testCharacter.png", sf::Vector2f(i % height * 32, i / height * 32), sf::Vector2f(1.5,1.5)));
 		}
 		else if (currentPixel == LIGHT) {
 			lights.push_back(new Light(sf::Vector2f(i % height * 32, i / height * 32), sf::Vector2f(0.1, 0.1), sf::Color(255,0,0,150)));
@@ -56,6 +56,6 @@ void Level::load(std::string dir) {
 
 std::vector<Tile*> Level::getTiles() { return tiles; }
 
-//std::vector<Enemy> * Level::getEnemies() { }
+std::vector<Enemy*> Level::getEnemies() { return enemies; }
 
 std::vector<Light*> Level::getLights() { return lights; }
