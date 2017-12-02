@@ -83,12 +83,24 @@ sf::Vector2i GameObject::boundCollision(GameObject * g) {
 			collision.y = -1;
 		}
 
+		float skinWidth = 0.10;
 
 		if (abs(overlapX) < abs(overlapY)) {
+
+			//This is a hotfix for a collision bug. It is not a good fix. If you're reading this, don't do this.
+			if (overlapX > 0) {
+				overlapX += skinWidth;
+			}
+			else {
+				overlapX -= skinWidth;
+			}
+
 			overlapY = 0;
 			collision.y = 0;
 		}
 		else {
+
+
 			overlapX = 0;
 			collision.x = 0;
 		}

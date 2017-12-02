@@ -86,11 +86,12 @@ void Game::Update() {
 	std::vector<Tile*> levelTiles = level.getTiles();
 	std::vector<Light*> levelLights = level.getLights();
 
+	player->update(dt);
+
+
 	for (int i = 0; i < levelTiles.size(); i++) {
 		player->boundCollision(levelTiles[i]);
 	}
-
-	player->update(dt);
 
 
 	window.clear(sf::Color(200,200,200,255));

@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include <math.h>
 
 
 Player::Player()
@@ -12,6 +12,8 @@ Player::Player()
 	this->setOrigin(16, 16);
 	sprite.setColor(sf::Color::Red);
 
+	collider = sf::FloatRect(0, 0, 32, 32);
+
 	light.setPosition(this->getPosition().x, this->getPosition().y);
 }
 
@@ -21,7 +23,7 @@ Player::~Player()
 }
 
 void Player::update(float dt) {
-
+	
 	this->move(velocity * dt);
 
 	light.setScale(1, 1);

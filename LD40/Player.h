@@ -22,5 +22,6 @@ public:
 	float lightIntensity;
 	const float lightScrollSpeed = 0.01;
 
+
 };
 
