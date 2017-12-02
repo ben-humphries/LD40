@@ -1,0 +1,41 @@
+Level class:
+
+.h:
+
+void load(dir);
+std::vector<Tile> * getTiles();
+std::vector<Enemy> * getEnemies();
+std::vector<Light> * getLight();
+
+sf::Vector2f getPlayerStart();
+//update all of the objects in Game. Level just acts as a loader.
+
+
+std::vector<Tile> tiles;
+std::vector<Enemy> enemies;
+std::vector<Light> lights;
+
+.cpp:
+
+#define ENEMY sf::Color(255, 0, 0, 255) // etc.
+
+int tileWidth = 32;
+
+void load(dir){
+	sf::Image image;
+
+	image.loadFromFile(dir);
+
+	for(pixels){
+		pos = pixel.pos * tileWidth;
+
+		if(pixel.color == TILE){
+			tiles.push_back(Tile(id, pos, scale));
+		}
+		else if(pixel.color == ENEMY){
+			enemies.push_back(Enemy(id, pos, scale))
+		}
+		//etc.
+	}
+
+}

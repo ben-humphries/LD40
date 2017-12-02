@@ -10,6 +10,7 @@ Player::Player()
 	this->setPosition(200, 200);
 	this->setScale(1.5, 1.5);
 	this->setOrigin(16, 16);
+	sprite.setColor(sf::Color::Red);
 
 	light.setPosition(this->getPosition().x, this->getPosition().y);
 }
