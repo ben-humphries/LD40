@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GameObject.h"
+#include "Player.h"
 
 float width = 1344;
 float height = 756;
@@ -8,7 +9,7 @@ sf::RenderWindow Game::window;
 Game::GameState Game::gameState;
 clock_t Game::t;
 
-GameObject * g1;
+Player * player;
 GameObject * g2;
 
 
@@ -24,10 +25,9 @@ void Game::Start() {
 	sf::VideoMode desktopSize = sf::VideoMode::getDesktopMode();
 	window.setPosition(sf::Vector2i(desktopSize.width / 2 - width / 2, desktopSize.height / 2 - height / 2));
 
-	g1 = new GameObject("res/testCharacter.png");
+	player = new Player();
 	g2 = new GameObject("res/testCharacter.png");
 
-	g1->setPosition(100, 200);
 	g2->setPosition(500, 200);
 
 
@@ -49,6 +49,9 @@ void Game::Update() {
 
 		case Running:
 
+			player->handleInput(e);
+
+
 			if (e.type == sf::Event::Closed) {
 
 				gameState = Exiting;
@@ -59,12 +62,13 @@ void Game::Update() {
 		}
 	}
 
-	g1->boundCollision(g2);
+	player->update(dt);
 
-	g1->move(50 * dt, 0);
+
+	player->boundCollision(g2);
 
 	window.clear(sf::Color(255,255,255,255));
-	window.draw(*g1);
+	window.draw(*player);
 	window.draw(*g2);
 	window.display();
 
