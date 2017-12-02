@@ -26,7 +26,7 @@ void Player::update(float dt) {
 
 	light.setScale(1, 1);
 
-	Game::lights.push_back(Light(sf::Vector2f(getPosition()), sf::Vector2f(lightIntensity,lightIntensity), sf::Color(255,255,255,255)));
+	Game::lights.push_back(Light(sf::Vector2f(getPosition()), sf::Vector2f(lightIntensity,lightIntensity), sf::Color(200,200,200,255)));
 }
 
 void Player::handleInput(sf::Event e) {

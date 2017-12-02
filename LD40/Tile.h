@@ -14,6 +14,9 @@ public:
 	*/
 	int tileWidth = 32;
 
+private:
+
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 };
 

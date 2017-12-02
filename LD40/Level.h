@@ -11,14 +11,16 @@ public:
 	~Level();
 
 	void load(std::string dir);
-	std::vector<Tile> * getTiles();
+	std::vector<Tile*> getTiles();
 	//std::vector<Enemy> * getEnemies();
-	std::vector<Light> * getLights();
+	std::vector<Light*> getLights();
 
 	sf::Vector2f getPlayerStart();
 
-	std::vector<Tile> tiles;
+	sf::Vector2f playerStart;
+
+	std::vector<Tile*> tiles;
 	//std::vector<Enemy> enemies;
-	std::vector<Light> lights;
+	std::vector<Light*> lights;
 };
 

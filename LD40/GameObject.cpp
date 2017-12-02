@@ -12,6 +12,9 @@ GameObject::GameObject(std::string dir)
 
 	collider = sprite.getLocalBounds();
 }
+GameObject::GameObject() {
+
+}
 
 
 GameObject::~GameObject()

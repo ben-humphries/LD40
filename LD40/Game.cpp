@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Player.h"
+#include "Level.h"
+#include "Tile.h"
 
 float width = 1344;
 float height = 756;
@@ -10,7 +12,6 @@ Game::GameState Game::gameState;
 clock_t Game::t;
 
 Player * player;
-GameObject * g2;
 
 std::vector<Light> Game::lights;
 
@@ -20,7 +21,7 @@ sf::Sprite light;
 sf::RenderTexture lightMapTexture;
 sf::Sprite lightMap;
 
-
+Level level;
 
 
 void Game::Start() {
@@ -36,9 +37,6 @@ void Game::Start() {
 	window.setPosition(sf::Vector2i(desktopSize.width / 2 - width / 2, desktopSize.height / 2 - height / 2));
 
 	player = new Player();
-	g2 = new GameObject("res/testCharacter.png");
-
-	g2->setPosition(500, 200);
 
 	lightMapTexture.create(width, height);
 	lightMap.setTexture(lightMapTexture.getTexture());
@@ -50,7 +48,7 @@ void Game::Start() {
 	light.setTextureRect(sf::IntRect(0, 0, 1920, 1920));
 	light.setOrigin(960, 960);
 
-
+	level.load("levels/testLevel.level");
 
 	gameState = Running;
 	while (gameState != Exiting) {
@@ -85,13 +83,23 @@ void Game::Update() {
 
 	lights.clear();
 
+	std::vector<Tile*> levelTiles = level.getTiles();
+	std::vector<Light*> levelLights = level.getLights();
+
+	for (int i = 0; i < levelTiles.size(); i++) {
+		player->boundCollision(levelTiles[i]);
+	}
+
 	player->update(dt);
 
 
-	player->boundCollision(g2);
-
 	window.clear(sf::Color(200,200,200,255));
 	lightMapTexture.clear(sf::Color(5, 5, 5));
+
+	for (int i = 0; i < levelLights.size(); i++) {
+
+		lights.push_back(Light(levelLights[i]->pos, levelLights[i]->scale, levelLights[i]->color));
+	}
 
 	for (int i = 0; i < Game::lights.size(); i++) {
 
@@ -107,8 +115,10 @@ void Game::Update() {
 	lightMap.setPosition(0, 0);
 
 	window.draw(*player);
-	window.draw(*g2);
 	
+	for (int i = 0; i < levelTiles.size(); i++) {
+		window.draw(*levelTiles[i]);
+	}
 
 	window.draw(lightMap, sf::BlendMultiply);
 

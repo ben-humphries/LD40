@@ -33,26 +33,29 @@ void Level::load(std::string dir) {
 			continue;
 		}
 		else if (currentPixel == TILE_WALL) {
-			tiles.push_back(Tile(0, sf::Vector2f(i % height, i / height), sf::Vector2f(1.5, 1.5)));
+			tiles.push_back(new Tile(0, sf::Vector2f(i % height, i / height), sf::Vector2f(1.5, 1.5)));
 		}
 		else if (currentPixel == TILE_DOOR) {
-			tiles.push_back(Tile(1, sf::Vector2f(i % height, i / height), sf::Vector2f(1.5, 1.5)));
+			tiles.push_back(new Tile(1, sf::Vector2f(i % height, i / height), sf::Vector2f(1.5, 1.5)));
 		}
 		else if (currentPixel == ENEMY) {
 			//enemies.push_back(Enemy(id, pos, scale));
 		}
 		else if (currentPixel == LIGHT) {
-			lights.push_back(Light(sf::Vector2f(i % height, i / height), sf::Vector2f(0.1, 0.1), sf::Color(255,0,0,150)));
+			lights.push_back(new Light(sf::Vector2f(i % height * 32, i / height * 32), sf::Vector2f(0.1, 0.1), sf::Color(255,0,0,150)));
+		}
+		else if (currentPixel == PLAYER) {
+			playerStart = sf::Vector2f(i % height, i / height);
 		}
 		else {
-			printf("Unrecognized level object. Skipping tile.");
+			printf("Unrecognized level object. Skipping tile. Coordinates: %d, %d\n", i %height, i / height);
 			continue;
 		}
 	}
 }
 
-std::vector<Tile> * Level::getTiles() { return &tiles; }
+std::vector<Tile*> Level::getTiles() { return tiles; }
 
 //std::vector<Enemy> * Level::getEnemies() { }
 
-std::vector<Light> * Level::getLights() { return &lights; }
+std::vector<Light*> Level::getLights() { return lights; }
