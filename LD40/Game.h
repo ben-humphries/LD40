@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Light.h"
+
 class Game
 {
 public:
@@ -14,6 +16,8 @@ public:
 	static clock_t t;
 
 	static sf::RenderWindow window;
+
+	static std::vector<Light> lights;
 
 
 };
