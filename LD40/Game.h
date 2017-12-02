@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Light.h"
 
 class Game
@@ -18,7 +19,6 @@ public:
 	static sf::RenderWindow window;
 
 	static std::vector<Light> lights;
-
 
 };
 

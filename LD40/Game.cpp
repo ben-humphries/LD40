@@ -4,6 +4,7 @@
 #include "Level.h"
 #include "Tile.h"
 
+
 float width = 1344;
 float height = 756;
 
@@ -23,6 +24,7 @@ sf::Sprite lightMap;
 
 Level level;
 
+sf::Music music;
 
 
 
@@ -51,6 +53,13 @@ void Game::Start() {
 	light.setOrigin(960, 960);
 
 	level.load("levels/testLevel.level");
+
+	if (!music.openFromFile("res/music/song.wav")) {
+		printf("Could not load music.");
+	}
+
+	music.setLoop(true);
+	music.play();
 
 	gameState = Running;
 	while (gameState != Exiting) {
