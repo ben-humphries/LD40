@@ -122,7 +122,7 @@ void Game::Start() {
 	}
 
 	music.setLoop(true);
-	music.setVolume(50);
+	music.setVolume(20);
 	//music.play();
 
 	if (!bgTexture.loadFromFile("res/background.png")) {
