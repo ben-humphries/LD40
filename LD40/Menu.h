@@ -5,8 +5,17 @@
 class Menu
 {
 public:
-	enum MenuType {MainMenu, PauseMenu, OptionsMenu, DeathMenu};
-	enum MenuAction { Nothing, Exit, Play, Options };
+
+	enum MenuType { MainMenu, PauseMenu, OptionsMenu, DeathMenu };
+	MenuType menuType;
+	sf::Vector2f offset;
+
+	Menu(MenuType type);
+	Menu(MenuType type, sf::Vector2f offset);
+	~Menu();
+
+
+	enum MenuAction { Nothing, Exit, Play, Options, MusicOn, MusicOff, ToMenu};
 
 	struct MenuItem {
 	public:
@@ -21,7 +30,7 @@ private:
 	MenuAction click(int x, int y, sf::RenderWindow & window);
 	MenuAction getMenuResponse(sf::RenderWindow &window);
 
-	MenuItem items[3];
+	std::vector<MenuItem> items;
 
 	sf::Texture texture;
 	sf::Sprite sprite;

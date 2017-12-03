@@ -21,7 +21,7 @@ public:
 	static void Update();
 
 
-	enum GameState {Uninitialized, Running, Paused, Exiting, MainMenu};
+	enum GameState {Uninitialized, Running, Paused, Exiting, MainMenu, OptionsMenu};
 
 	static GameState gameState;
 	static clock_t t;

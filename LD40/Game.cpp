@@ -105,8 +105,30 @@ void Game::Update() {
 
 				gameState = Exiting;
 			}
+			else if (e.type == sf::Event::KeyPressed) {
+				if (e.key.code == sf::Keyboard::Escape) {
+					gameState = Paused;
+					while (gameState == Paused) {
+						Menu pauseMenu(Menu::PauseMenu, view.getCenter() - view.getSize() / 2.0f);
+						Menu::MenuAction pauseAction = pauseMenu.show(window);
 
-			break;
+						switch (pauseAction) {
+						case Menu::Play:
+							gameState = Running;
+							break;
+						case Menu::ToMenu:
+							gameState = MainMenu;
+							//view.reset(sf::FloatRect(0, 0, width, height));
+							window.setView(sf::View(sf::FloatRect(0, 0, width, height)));
+							LoadLevel("levels/testLevel.level");
+							break;
+						case Menu::Exit:
+							gameState = Exiting;
+							break;
+						}
+					}
+				}
+			}
 
 		case MainMenu:
 			ShowMenu();
@@ -208,7 +230,7 @@ void Game::Update() {
 void Game::ShowMenu() {
 
 	while (gameState == MainMenu) {
-		Menu mainMenu;
+		Menu mainMenu(Menu::MainMenu);
 		Menu::MenuAction action = mainMenu.show(window);
 
 		switch (action) {
@@ -224,7 +246,26 @@ void Game::ShowMenu() {
 			break;
 
 		case Menu::Options:
-			//showOptionsMenu();
+			gameState = OptionsMenu;
+			while (gameState == OptionsMenu) {
+				Menu optionsMenu(Menu::OptionsMenu);
+				Menu::MenuAction optionsAction = optionsMenu.show(window);
+
+				switch (optionsAction) {
+				case Menu::MusicOn:
+					printf("Turned music on.");
+					break;
+				case Menu::MusicOff:
+					printf("Turned music off.");
+					break;
+				case Menu::ToMenu:
+					gameState = MainMenu;
+					break;
+				case Menu::Exit:
+					gameState = Exiting;
+					break;
+				}
+			}
 			break;
 		}
 	}
