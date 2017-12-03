@@ -189,10 +189,20 @@ void Player::wakeEnemy(Enemy * enemy) {
 
 	float distance = sqrt(delta.x*delta.x + delta.y*delta.y);
 
-	if (distance <= lightRadius * lightIntensity) {
-		enemy->setState(Enemy::AwakeState);
+	if (enemy->id == 0 || enemy->id == 1) {
+		if (distance <= lightRadius * lightIntensity) {
+			enemy->setState(Enemy::AwakeState);
+		}
+		else if (enemy->getState() == Enemy::AwakeState) {
+			enemy->setState(Enemy::AwakeDarkState);
+		}
 	}
-	else if(enemy->getState() == Enemy::AwakeState) {
-		enemy->setState(Enemy::AwakeDarkState);
+	else {
+		if (distance >= lightRadius * lightIntensity) {
+			enemy->setState(Enemy::AwakeState);
+		}
+		else {
+			enemy->setState(Enemy::AsleepState);
+		}
 	}
 }

@@ -259,8 +259,9 @@ void Game::Update() {
 				case Menu::ToMenu:
 					gameState = MainMenu;
 					window.setView(sf::View(sf::FloatRect(0, 0, width, height)));
-					LoadLevel("levels/level0.level");
 					currentLevel = 0;
+
+					LoadLevel("levels/level0.level");
 					break;
 				case Menu::Exit:
 					gameState = Exiting;

@@ -25,6 +25,10 @@ Enemy::Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale, int id)
 		color = sf::Color(255, 111, 255, 255);
 		sprite.setColor(color);
 	}
+	else if (id == 2) {
+		color = sf::Color(255, 255, 0, 255);
+		sprite.setColor(color);
+	}
 
 }
 
@@ -60,7 +64,7 @@ void Enemy::update(float dt) {
 
 	Enemy::sprite = *(*animations.at(animationState)).getSprite(3.2, true);
 
-	if (id == 1) {
+	if (id != 0) {
 		sprite.setColor(color);
 	}
 
