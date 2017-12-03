@@ -22,5 +22,6 @@ public:
 	std::vector<Tile*> tiles;
 	std::vector<Enemy*> enemies;
 	std::vector<Light*> lights;
+
 };
 

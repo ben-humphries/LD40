@@ -31,7 +31,8 @@ Level level;
 
 sf::Music music;
 
-
+sf::Texture bgTexture;
+sf::Sprite background;
 
 void Game::Start() {
 
@@ -72,6 +73,12 @@ void Game::Start() {
 
 	music.setLoop(true);
 	music.play();
+
+	if (!bgTexture.loadFromFile("res/background.png")) {
+		printf("Could not load background texture.");
+	}
+	background.setTexture(bgTexture);
+	background.setOrigin(width / 2, height / 2);
 
 	gameState = MainMenu;
 	while (gameState != Exiting) {
@@ -115,19 +122,21 @@ void Game::Update() {
 
 	player->update(dt);
 
-	view.setCenter(player->getPosition());
-	
+	view.setCenter(player->getPosition());	
 	sf::Vector2f viewMin = sf::Vector2f(width / 2, height / 2);
 
 	if (view.getCenter().x < viewMin.x) { view.setCenter(viewMin.x, view.getCenter().y); }
 	if (view.getCenter().y < viewMin.y) { view.setCenter(view.getCenter().x, viewMin.y); }
+
+	background.setPosition(view.getCenter());
+
 
 
 	window.setView(view);
 
 
 	for (int i = 0; i < levelTiles.size(); i++) {
-		if (levelTiles[i]->id == 1) {
+		if (levelTiles[i]->id == 2) {
 			sf::Vector2i col = player->boundCollision(levelTiles[i]);
 			if (col.x != 0 || col.y != 0) {
 				LoadLevel("levels/testLevel.level");
@@ -158,6 +167,8 @@ void Game::Update() {
 	lightMap.setTextureRect(sf::IntRect(0, 0, width, height));
 	lightMap.setPosition(view.getCenter());
 
+	window.draw(background);
+
 	window.draw(*player);
 	
 	for (int i = 0; i < levelTiles.size(); i++) {
@@ -179,7 +190,6 @@ void Game::Update() {
 
 		window.draw(*enemies[i]);
 	}
-
 	window.draw(lightMap, sf::BlendMultiply);
 
 	sf::CircleShape circle;

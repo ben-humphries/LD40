@@ -39,16 +39,17 @@ void Level::load(std::string dir) {
 			continue;
 		}
 		else if (currentPixel == TILE_WALL) {
-			tiles.push_back(new Tile(0, sf::Vector2f(i % height, i / height), sf::Vector2f(scale, scale)));
+			float id = ((float)rand() / RAND_MAX);
+			tiles.push_back(new Tile(id > 0.5 ? 0 : 1, sf::Vector2f(i % height, i / height), sf::Vector2f(scale, scale)));
 		}
 		else if (currentPixel == TILE_DOOR) {
-			tiles.push_back(new Tile(1, sf::Vector2f(i % height, i / height), sf::Vector2f(scale, scale)));
+			tiles.push_back(new Tile(2, sf::Vector2f(i % height, i / height), sf::Vector2f(scale, scale)));
 		}
 		else if (currentPixel == ENEMY) {
 			enemies.push_back(new Enemy("res/testCharacter.png", sf::Vector2f(i % height * 32 * scale, i / height * 32 * scale), sf::Vector2f(scale, scale)));
 		}
 		else if (currentPixel == LIGHT) {
-			lights.push_back(new Light(sf::Vector2f(i % height * 32 * scale, i / height * 32 * scale), sf::Vector2f(.1, .1) * scale, sf::Color(250,50,50,150)));
+			lights.push_back(new Light(sf::Vector2f(i % height * 32 * scale, i / height * 32 * scale), sf::Vector2f(.2, .2) * scale, sf::Color(250,50,50,250)));
 		}
 		else if (currentPixel == PLAYER) {
 			playerStart = sf::Vector2f(i % height * 32 * scale, i / height * 32 * scale);

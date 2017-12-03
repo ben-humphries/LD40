@@ -23,7 +23,7 @@ public:
 	bool movingUp, movingDown;
 
 	float lightIntensity;
-	const float lightScrollSpeed = 0.01;
+	const float lightScrollSpeed = 0.03;
 
 	sf::SoundBuffer footstepBuffer;
 	sf::Sound footstep;
