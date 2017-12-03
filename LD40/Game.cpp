@@ -287,10 +287,11 @@ void Game::ShowMenu() {
 
 				switch (optionsAction) {
 				case Menu::MusicOn:
-					printf("Turned music on.");
+					if(music.getStatus() != music.Playing)
+						music.play();
 					break;
 				case Menu::MusicOff:
-					printf("Turned music off.");
+					music.stop();
 					break;
 				case Menu::ToMenu:
 					gameState = MainMenu;
@@ -331,13 +332,13 @@ void Game::LoadLevel(std::string dir) {
 
 	player = new Player();
 
-	player->movingUp = movingUp;
+	/*player->movingUp = movingUp;
 	player->movingDown = movingDown;
 	player->movingRight = movingRight;
 	player->movingLeft = movingLeft;
 	player->velocity = velocity;
 
-	player->animationState = animationState;
+	player->animationState = animationState;*/
 
 	player->lightIntensity = 0;
 	player->setPosition(level.getPlayerStart());
