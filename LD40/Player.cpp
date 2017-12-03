@@ -16,6 +16,7 @@ Player::Player()
 	}
 	footstep.setBuffer(footstepBuffer);
 	footstep.setLoop(true);
+	footstep.setVolume(70);
 
 	if (footstep.getStatus() == footstep.Playing) {
 		footstep.stop();

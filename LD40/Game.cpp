@@ -21,7 +21,7 @@ std::vector<Tile*> Game::levelTiles;
 std::vector<Light*> Game::levelLights;
 std::vector<Enemy*> Game::enemies;
 
-int Game::currentLevel = 11;
+int Game::currentLevel = 10;
 
 sf::Texture lightTexture;
 sf::Sprite light;
@@ -260,7 +260,6 @@ void Game::Update() {
 				case Menu::Play: {
 					std::string dir = "levels/level" + std::to_string(currentLevel) + ".level";
 					LoadLevel(dir);
-					printf("here");
 					gameState = Running;
 					break;
 				}

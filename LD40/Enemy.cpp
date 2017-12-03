@@ -31,6 +31,13 @@ Enemy::Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale, int id)
 		speed = 50;
 	}
 
+	if (id != 2) {
+		if (!soundBuffer.loadFromFile("res/sound/enemysound.wav")) {
+			printf("Could not load enemy sound");
+		}
+		sound.setBuffer(soundBuffer);
+	}
+	
 }
 
 
@@ -49,9 +56,15 @@ void Enemy::setState(Enemy::State state) {
 void Enemy::update(float dt) {
 	if (state == AwakeState) {
 		animationState = Awake;
+		if (sound.getStatus() != sound.Playing && id != 2) {
+			sound.play();
+		}
 	}
 	else if (state == AwakeDarkState && id == 1) {
 		darkTimer += dt;
+		if (sound.getStatus() != sound.Playing && id != 2) {
+			sound.play();
+		}
 		if (darkTimer >= darkTime) {
 			darkTimer = 0;
 			state = AsleepState;

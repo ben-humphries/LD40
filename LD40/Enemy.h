@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Animation.h"
+#include "SFML/Audio.hpp"
 
 class Enemy :
 	public GameObject
@@ -31,5 +32,8 @@ public:
 
 	enum AnimationState { Asleep, Awake };
 	AnimationState animationState;
+
+	sf::SoundBuffer soundBuffer;
+	sf::Sound sound;
 };
 
