@@ -15,6 +15,12 @@ Player::Player()
 	collider = sf::FloatRect(0, 0, 32, 32);
 
 	light.setPosition(this->getPosition().x, this->getPosition().y);
+
+	if (!footstepBuffer.loadFromFile("res/sound/footstep.wav")) {
+		printf("Could not load footstep sound");
+	}
+	footstep.setBuffer(footstepBuffer);
+	footstep.setLoop(true);
 }
 
 
@@ -23,6 +29,23 @@ Player::~Player()
 }
 
 void Player::update(float dt) {
+
+	currentTime += dt;
+
+	if (currentTime > 0.3) {
+		currentTime = 0;
+	}
+	if (velocity.x == 0 && velocity.y == 0) {
+		currentTime = 0;
+	}
+
+	if ((velocity.x != 0 || velocity.y != 0) && footstep.getStatus() != footstep.Playing) {
+		footstep.play();
+	}
+	else if (velocity.x == 0 && velocity.y == 0 && footstep.getStatus() == footstep.Playing) {
+		footstep.stop();
+	}
+
 	
 	this->move(velocity * dt);
 
