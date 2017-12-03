@@ -11,11 +11,30 @@ Enemy::Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale) : GameO
 	collider = sprite.getLocalBounds();
 
 	srand(time(NULL));
+
+	animations.push_back(new Animation("res/enemyAsleep.png", 32));
+	animations.push_back(new Animation("res/enemyAwake.png", 32));
+
+	animationState = Asleep;
+	Enemy::sprite = *(*animations.at(animationState)).getSprite(3.2, true);
+
 }
 
 
 Enemy::~Enemy()
 {
+}
+
+void Enemy::update() {
+	if (awake) {
+		animationState = Awake;
+	}
+	else {
+		animationState = Asleep;
+	}
+
+	Enemy::sprite = *(*animations.at(animationState)).getSprite(3.2, true);
+
 }
 
 

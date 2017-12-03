@@ -33,7 +33,7 @@ public:
 	enum AnimationState {IdleUp, IdleDown, IdleRight, IdleLeft, WalkUp, WalkDown, WalkRight, WalkLeft };
 	AnimationState animationState;
 
-	const int lightRadius = 1920 - 800;
+	const int lightRadius = 1920 - 900;
 
 };
 

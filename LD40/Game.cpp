@@ -137,6 +137,7 @@ void Game::Update() {
 		player->wakeEnemy(enemies[i]);
 
 		if (enemies[i]->awake) { enemies[i]->followPlayer(player, dt); }
+		enemies[i]->update();
 		window.draw(*enemies[i]);
 	}
 
