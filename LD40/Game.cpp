@@ -21,7 +21,7 @@ std::vector<Tile*> Game::levelTiles;
 std::vector<Light*> Game::levelLights;
 std::vector<Enemy*> Game::enemies;
 
-int Game::currentLevel = 6;
+int Game::currentLevel = 11;
 
 sf::Texture lightTexture;
 sf::Sprite light;
@@ -68,6 +68,13 @@ void Game::Start() {
 	levelText.push_back("");
 	levelText.push_back("");
 	levelText.push_back("These guys look a little... different...");
+	levelText.push_back("");
+	levelText.push_back("");
+	levelText.push_back("Looks like they don't like the light...");
+	levelText.push_back("");
+	levelText.push_back("");
+
+
 
 	std::string dir = "levels/level" + std::to_string(currentLevel) + ".level";
 	LoadLevel(dir);
@@ -161,6 +168,7 @@ void Game::Update() {
 
 		case MainMenu:
 			ShowMenu();
+			clock();
 			break;
 		}
 	}

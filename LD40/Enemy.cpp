@@ -28,6 +28,7 @@ Enemy::Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale, int id)
 	else if (id == 2) {
 		color = sf::Color(255, 255, 0, 255);
 		sprite.setColor(color);
+		speed = 50;
 	}
 
 }
