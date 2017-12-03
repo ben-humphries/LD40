@@ -21,7 +21,7 @@ std::vector<Tile*> Game::levelTiles;
 std::vector<Light*> Game::levelLights;
 std::vector<Enemy*> Game::enemies;
 
-int Game::currentLevel = 10;
+int Game::currentLevel = 0;
 
 sf::Texture lightTexture;
 sf::Sprite light;
@@ -38,6 +38,9 @@ sf::Sprite background;
 
 sf::Font font;
 sf::Text text;
+
+sf::SoundBuffer screamBuffer;
+sf::Sound scream;
 
 std::vector<std::string> levelText;
 
@@ -108,6 +111,7 @@ void Game::Start() {
 	}
 
 	music.setLoop(true);
+	music.setVolume(50);
 	music.play();
 
 	if (!bgTexture.loadFromFile("res/background.png")) {
@@ -115,6 +119,11 @@ void Game::Start() {
 	}
 	background.setTexture(bgTexture);
 	background.setOrigin(width / 2, height / 2);
+
+	if (!screamBuffer.loadFromFile("res/sound/screamsound.wav")) {
+		printf("Could not load scream sound.");
+	}
+	scream.setBuffer(screamBuffer);
 
 	gameState = MainMenu;
 	while (gameState != Exiting) {
@@ -251,7 +260,7 @@ void Game::Update() {
 			gameState = Paused;
 			while (gameState == Paused) {
 				player->footstep.stop();
-
+				scream.play();
 
 				Menu deathMenu(Menu::DeathMenu, view.getCenter() - view.getSize() / 2.0f);
 				Menu::MenuAction deathAction = deathMenu.show(window);

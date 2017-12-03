@@ -35,5 +35,8 @@ public:
 
 	const int lightRadius = 1920 - 900;
 
+	sf::SoundBuffer screamBuffer;
+	sf::Sound scream;
+
 };
 

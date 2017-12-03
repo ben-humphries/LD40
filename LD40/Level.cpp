@@ -57,7 +57,7 @@ void Level::load(std::string dir) {
 			enemies.push_back(new Enemy("res/enemyAsleep.png", sf::Vector2f(i % height * 32 * scale + 32, i / height * 32 * scale + 32), sf::Vector2f(scale, scale), 2));
 		}
 		else if (currentPixel == LIGHT) {
-			lights.push_back(new Light(sf::Vector2f(i % height * 32 * scale, i / height * 32 * scale), sf::Vector2f(.21, .21) * scale, sf::Color(250,50,50,250)));
+			lights.push_back(new Light(sf::Vector2f(i % height * 32 * scale, i / height * 32 * scale), sf::Vector2f(.1, .1) * scale, sf::Color(250,50,50,250)));
 		}
 		else if (currentPixel == PLAYER) {
 			playerStart = sf::Vector2f(i % height * 32 * scale, i / height * 32 * scale);

@@ -2,6 +2,8 @@
 #include <math.h>
 
 
+
+
 Player::Player()
 	: GameObject("res/playerIdleDown.png")
 {
@@ -35,6 +37,11 @@ Player::Player()
 	animationState = IdleDown;
 	Player::sprite = *(*animations.at(animationState)).getSprite(3.2, true);
 	collider = sf::FloatRect(8, 2, 10, 30);
+
+	if (!screamBuffer.loadFromFile("res/sound/screamsound.wav")) {
+		printf("Could not load scream sound.");
+	}
+	scream.setBuffer(screamBuffer);
 }
 
 
@@ -200,6 +207,10 @@ void Player::wakeEnemy(Enemy * enemy) {
 	sf::Vector2f delta = enemy->getPosition() - this->getPosition();
 
 	float distance = sqrt(delta.x*delta.x + delta.y*delta.y);
+
+	if (distance < 50.0) {
+		scream.play();
+	}
 
 	if (enemy->id == 0 || enemy->id == 1) {
 		if (distance <= lightRadius * lightIntensity) {
