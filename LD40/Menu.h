@@ -5,6 +5,7 @@
 class Menu
 {
 public:
+	enum MenuType {Main, Pause, Options, Death};
 	enum MenuAction { Nothing, Exit, Play, Options };
 
 	struct MenuItem {
