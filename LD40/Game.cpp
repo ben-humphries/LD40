@@ -21,7 +21,7 @@ std::vector<Tile*> Game::levelTiles;
 std::vector<Light*> Game::levelLights;
 std::vector<Enemy*> Game::enemies;
 
-int Game::currentLevel = 0;
+int Game::currentLevel = 6;
 
 sf::Texture lightTexture;
 sf::Sprite light;

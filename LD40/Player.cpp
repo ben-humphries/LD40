@@ -90,6 +90,17 @@ void Player::handleInput(sf::Event e) {
 				animationState = WalkUp;
 			}
 		}
+		else if (e.key.code == sf::Keyboard::N) {
+			lightIntensity -= 2 * lightScrollSpeed;
+
+			if (lightIntensity < 0) {
+				lightIntensity = 0;
+			}
+		}
+		else if (e.key.code == sf::Keyboard::M) {
+			lightIntensity += 2 * lightScrollSpeed;
+
+		}
 	}
 	else if (e.type == sf::Event::KeyReleased) {
 		if (e.key.code == sf::Keyboard::W || e.key.code == sf::Keyboard::Up) {

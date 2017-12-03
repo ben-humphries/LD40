@@ -22,7 +22,7 @@ Enemy::Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale, int id)
 	this->id = id;
 
 	if (id == 1) {
-		color = sf::Color(255, 111, 255, 255);
+		color = sf::Color(0, 255, 0, 255);
 		sprite.setColor(color);
 	}
 	else if (id == 2) {
