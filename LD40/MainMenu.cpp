@@ -2,12 +2,13 @@
 
 MainMenu::MenuAction MainMenu::show(sf::RenderWindow & window)
 {
+	window.clear();
 
-	sf::Texture texture;
+
 	if (!texture.loadFromFile("res/mainmenu.png")) {
 		printf("could not load Main Menu texture");
 	}
-	sf::Sprite sprite(texture);
+	sprite.setTexture(texture);
 
 	//set up button coords
 	MenuItem playButton;
@@ -25,7 +26,7 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow & window)
 	optionsButton.action = Options;
 
 	MenuItem quitButton;
-	quitButton.rect.top = 735;
+	quitButton.rect.top = 530;
 	quitButton.rect.left = 600;
 	quitButton.rect.width = 130;
 	quitButton.rect.height = 36;
@@ -42,19 +43,24 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow & window)
 
 }
 
-MainMenu::MenuAction MainMenu::click(int x, int y)
+MainMenu::MenuAction MainMenu::click(int x, int y, sf::RenderWindow & window)
 {
+
 	for (MenuItem &item : items) {
 
 		if (item.rect.top < y &&
 			item.rect.top + item.rect.height > y &&
 			item.rect.left < x &&
 			item.rect.left + item.rect.width > x) {
-
+			printf("%d", item.action);
 			return item.action;
 		}
 
 	}
+	
+	window.clear();
+	window.draw(sprite);
+	window.display();
 
 	return Nothing;
 }
@@ -68,7 +74,7 @@ MainMenu::MenuAction MainMenu::getMenuResponse(sf::RenderWindow & window)
 		while (window.pollEvent(event)) {
 
 			if (event.type == sf::Event::MouseButtonPressed) {
-				return click(event.mouseButton.x, event.mouseButton.y);
+				return click(event.mouseButton.x, event.mouseButton.y, window);
 			}
 			else if (event.type == sf::Event::Closed) {
 				return Exit;

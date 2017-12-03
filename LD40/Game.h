@@ -9,6 +9,11 @@ class Game
 public:
 
 	static void ShowMenu();
+	static void ShowDeathScreen();
+	static void ShowOptionsMenu();
+	static void ShowPauseMenu();
+
+
 	static void Start();
 	static void Update();
 

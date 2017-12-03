@@ -34,6 +34,8 @@ void Game::Start() {
 
 	gameState = Uninitialized;
 
+	ShowMenu();
+
 	//create window
 	window.create(sf::VideoMode(width, height, 32.0), "LD40", sf::Style::Close);
 	window.setKeyRepeatEnabled(false);
@@ -158,6 +160,15 @@ void Game::Update() {
 
 		if (enemies[i]->awake) { enemies[i]->followPlayer(player, dt); }
 		enemies[i]->update();
+
+		sf::Vector2i col = enemies[i]->boundCollision(player);
+		if (col.x != 0 || col.y != 0) {
+			level.load("levels/testLevel.level");
+
+			player = new Player();
+			player->setPosition(level.getPlayerStart());
+		}
+
 		window.draw(*enemies[i]);
 	}
 
@@ -178,21 +189,37 @@ void Game::Update() {
 
 void Game::ShowMenu() {
 
-	MainMenu mainMenu;
-	MainMenu::MenuAction action = mainMenu.show(window);
+	while (gameState == Menu) {
+		MainMenu mainMenu;
+		MainMenu::MenuAction action = mainMenu.show(window);
 
-	switch (action) {
+		switch (action) {
+		case MainMenu::Nothing:
+			continue;
 
-	case MainMenu::Exit:
-		gameState = Exiting;
-		break;
+		case MainMenu::Exit:
+			gameState = Exiting;
+			break;
 
-	case MainMenu::Play:
-		gameState = Running;
-		break;
+		case MainMenu::Play:
+			gameState = Running;
+			break;
 
-	case MainMenu::Options:
-		//showOptionsMenu();
-		break;
+		case MainMenu::Options:
+			//showOptionsMenu();
+			break;
+		}
 	}
+}
+
+void Game::ShowDeathScreen() {
+
+}
+
+void Game::ShowOptionsMenu() {
+
+}
+
+void Game::ShowPauseMenu() {
+
 }

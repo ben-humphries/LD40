@@ -8,8 +8,6 @@ Enemy::Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale) : GameO
 	this->setScale(scale);
 	this->setOrigin(16, 16);
 
-	collider = sprite.getLocalBounds();
-
 	srand(time(NULL));
 
 	animations.push_back(new Animation("res/enemyAsleep.png", 32));
@@ -17,6 +15,9 @@ Enemy::Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale) : GameO
 
 	animationState = Asleep;
 	Enemy::sprite = *(*animations.at(animationState)).getSprite(3.2, true);
+
+	collider = sf::FloatRect(12, 13, 7, 7);
+
 
 }
 

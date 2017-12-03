@@ -17,9 +17,12 @@ public:
 
 private:
 
-	MenuAction click(int x, int y);
+	MenuAction click(int x, int y, sf::RenderWindow & window);
 	MenuAction getMenuResponse(sf::RenderWindow &window);
 
 	MenuItem items[3];
+
+	sf::Texture texture;
+	sf::Sprite sprite;
 };
 
