@@ -50,10 +50,11 @@ void Game::Start() {
 	sf::VideoMode desktopSize = sf::VideoMode::getDesktopMode();
 	window.setPosition(sf::Vector2i(desktopSize.width / 2 - width / 2, desktopSize.height / 2 - height / 2));
 
-	level.load("levels/level0.level");
-	currentLevel = 0;
-
 	player = new Player();
+
+	std::string dir = "levels/level" + std::to_string(currentLevel) + ".level";
+	LoadLevel(dir);
+
 	player->setPosition(level.getPlayerStart());
 
 	view.setCenter(player->getPosition());
@@ -322,25 +323,13 @@ void Game::LoadLevel(std::string dir) {
 	level.load(dir);
 	player->footstep.stop();
 
-	bool movingUp = player->movingUp;
-	bool movingDown = player->movingDown;
-	bool movingRight = player->movingRight;
-	bool movingLeft = player->movingLeft;
-	Player::AnimationState animationState = player->animationState;
-
-	sf::Vector2f velocity = player->velocity;
-
 	player = new Player();
 
-	/*player->movingUp = movingUp;
-	player->movingDown = movingDown;
-	player->movingRight = movingRight;
-	player->movingLeft = movingLeft;
-	player->velocity = velocity;
-
-	player->animationState = animationState;*/
 
 	player->lightIntensity = 0;
+	if (currentLevel == 6) {
+		player->lightIntensity = 1;
+	}
 	player->setPosition(level.getPlayerStart());
 
 	enemies.clear();

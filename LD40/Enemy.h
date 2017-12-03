@@ -12,7 +12,7 @@ public:
 	virtual void update();
 	void followPlayer(GameObject * player, float dt);
 
-	float speed = 100;
+	float speed = 150;
 
 	bool awake = false;
 
