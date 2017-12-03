@@ -7,6 +7,8 @@
 #define ENEMY sf::Color(255,0,0,255)
 #define LIGHT sf::Color(255,255,0,255)
 
+float scale = 2;
+
 Level::Level()
 {
 }
@@ -33,19 +35,19 @@ void Level::load(std::string dir) {
 			continue;
 		}
 		else if (currentPixel == TILE_WALL) {
-			tiles.push_back(new Tile(0, sf::Vector2f(i % height, i / height), sf::Vector2f(1.5, 1.5)));
+			tiles.push_back(new Tile(0, sf::Vector2f(i % height, i / height), sf::Vector2f(scale, scale)));
 		}
 		else if (currentPixel == TILE_DOOR) {
-			tiles.push_back(new Tile(1, sf::Vector2f(i % height, i / height), sf::Vector2f(1.5, 1.5)));
+			tiles.push_back(new Tile(1, sf::Vector2f(i % height, i / height), sf::Vector2f(scale, scale)));
 		}
 		else if (currentPixel == ENEMY) {
-			enemies.push_back(new Enemy("res/testCharacter.png", sf::Vector2f(i % height * 32, i / height * 32), sf::Vector2f(1.5,1.5)));
+			enemies.push_back(new Enemy("res/testCharacter.png", sf::Vector2f(i % height * 32 * scale, i / height * 32 * scale), sf::Vector2f(scale, scale)));
 		}
 		else if (currentPixel == LIGHT) {
-			lights.push_back(new Light(sf::Vector2f(i % height * 32, i / height * 32), sf::Vector2f(0.1, 0.1), sf::Color(255,0,0,150)));
+			lights.push_back(new Light(sf::Vector2f(i % height * 32 * scale, i / height * 32 * scale), sf::Vector2f(.1, .1) * scale, sf::Color(250,50,50,150)));
 		}
 		else if (currentPixel == PLAYER) {
-			playerStart = sf::Vector2f(i % height, i / height);
+			playerStart = sf::Vector2f(i % height * 32 * scale, i / height * 32 * scale);
 		}
 		else {
 			printf("Unrecognized level object. Skipping tile. Coordinates: %d, %d\n", i %height, i / height);
@@ -53,6 +55,8 @@ void Level::load(std::string dir) {
 		}
 	}
 }
+
+sf::Vector2f Level::getPlayerStart() { return playerStart; }
 
 std::vector<Tile*> Level::getTiles() { return tiles; }
 

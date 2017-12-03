@@ -9,6 +9,8 @@ float width = 1344;
 float height = 756;
 
 sf::RenderWindow Game::window;
+sf::View Game::view;
+
 Game::GameState Game::gameState;
 clock_t Game::t;
 
@@ -40,10 +42,17 @@ void Game::Start() {
 	sf::VideoMode desktopSize = sf::VideoMode::getDesktopMode();
 	window.setPosition(sf::Vector2i(desktopSize.width / 2 - width / 2, desktopSize.height / 2 - height / 2));
 
+	level.load("levels/testLevel.level");
+
 	player = new Player();
+	player->setPosition(level.getPlayerStart());
+
+	view.setCenter(player->getPosition());
+	view.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
 
 	lightMapTexture.create(width, height);
 	lightMap.setTexture(lightMapTexture.getTexture());
+	lightMap.setOrigin(width / 2, height / 2);
 
 	lightTexture.loadFromFile("res/light.png");
 	lightTexture.setSmooth(true);
@@ -52,8 +61,6 @@ void Game::Start() {
 	light.setTextureRect(sf::IntRect(0, 0, 1920, 1920));
 	light.setOrigin(960, 960);
 
-	level.load("levels/testLevel.level");
-
 	if (!music.openFromFile("res/music/song.wav")) {
 		printf("Could not load music.");
 	}
@@ -61,7 +68,7 @@ void Game::Start() {
 	music.setLoop(true);
 	music.play();
 
-	gameState = Running;
+	gameState = Menu;
 	while (gameState != Exiting) {
 		Game::Update();
 	}
@@ -89,6 +96,9 @@ void Game::Update() {
 
 			break;
 
+		case Menu:
+			ShowMenu();
+			break;
 		}
 	}
 
@@ -99,6 +109,16 @@ void Game::Update() {
 	std::vector<Enemy*> enemies = level.getEnemies();
 
 	player->update(dt);
+
+	view.setCenter(player->getPosition());
+	
+	sf::Vector2f viewMin = sf::Vector2f(width / 2, height / 2);
+
+	if (view.getCenter().x < viewMin.x) { view.setCenter(viewMin.x, view.getCenter().y); }
+	if (view.getCenter().y < viewMin.y) { view.setCenter(view.getCenter().x, viewMin.y); }
+
+
+	window.setView(view);
 
 
 	for (int i = 0; i < levelTiles.size(); i++) {
@@ -117,7 +137,7 @@ void Game::Update() {
 	for (int i = 0; i < Game::lights.size(); i++) {
 
 		light.setScale(lights[i].scale);
-		light.setPosition(lights[i].pos);
+		light.setPosition(lights[i].pos - lightMap.getPosition() + lightMap.getOrigin());
 		light.setColor(lights[i].color);
 
 		lightMapTexture.draw(light, sf::BlendAdd);
@@ -125,7 +145,7 @@ void Game::Update() {
 	}
 	lightMapTexture.display();
 	lightMap.setTextureRect(sf::IntRect(0, 0, width, height));
-	lightMap.setPosition(0, 0);
+	lightMap.setPosition(view.getCenter());
 
 	window.draw(*player);
 	
@@ -156,3 +176,23 @@ void Game::Update() {
 
 }
 
+void Game::ShowMenu() {
+
+	MainMenu mainMenu;
+	MainMenu::MenuAction action = mainMenu.show(window);
+
+	switch (action) {
+
+	case MainMenu::Exit:
+		gameState = Exiting;
+		break;
+
+	case MainMenu::Play:
+		gameState = Running;
+		break;
+
+	case MainMenu::Options:
+		//showOptionsMenu();
+		break;
+	}
+}
