@@ -38,6 +38,7 @@ sf::Sprite background;
 
 sf::Font font;
 sf::Text text;
+sf::Text levelNumText;
 
 sf::SoundBuffer screamBuffer;
 sf::Sound scream;
@@ -92,6 +93,13 @@ void Game::Start() {
 	text.setOrigin(text.getLocalBounds().width/2, text.getLocalBounds().height/2);
 	text.setPosition(sf::Vector2f(width / 2, height - 100));
 	text.setFillColor(sf::Color::White);
+
+	levelNumText.setFont(font);
+	std::string levelNum = "Level: " + std::to_string(currentLevel);
+	levelNumText.setString(levelNum);
+	levelNumText.setPosition(sf::Vector2f(0, 0));
+	levelNumText.setCharacterSize(15);
+	levelNumText.setFillColor(sf::Color::White);
 
 	player->setPosition(level.getPlayerStart());
 
@@ -167,14 +175,22 @@ void Game::Update() {
 						case Menu::ToMenu:
 							gameState = MainMenu;
 							window.setView(sf::View(sf::FloatRect(0, 0, width, height)));
-							LoadLevel("levels/level0.level");
 							currentLevel = 0;
+							LoadLevel("levels/level0.level");
 							break;
 						case Menu::Exit:
 							gameState = Exiting;
 							break;
 						}
 					}
+				}
+				else if (e.key.code == sf::Keyboard::P) {
+					currentLevel++;
+					if (currentLevel == numLevels) {
+						currentLevel = 0;
+					}
+					std::string dir = "levels/level" + std::to_string(currentLevel) + ".level";
+					LoadLevel(dir);
 				}
 			}
 
@@ -305,6 +321,7 @@ void Game::Update() {
 
 	text.setPosition(sf::Vector2f(width / 2, height - 100) + (view.getCenter() - view.getSize() / 2.0f));
 	window.draw(text);
+	window.draw(levelNumText);
 
 	window.display();
 
@@ -382,6 +399,9 @@ void Game::LoadLevel(std::string dir) {
 
 	text.setString(levelText[currentLevel]);
 	text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
+
+	std::string levelNum = "Level: " + std::to_string(currentLevel);
+	levelNumText.setString(levelNum);
 
 	enemies.clear();
 	levelTiles.clear();
