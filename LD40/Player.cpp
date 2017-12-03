@@ -17,6 +17,10 @@ Player::Player()
 	footstep.setBuffer(footstepBuffer);
 	footstep.setLoop(true);
 
+	if (footstep.getStatus() == footstep.Playing) {
+		footstep.stop();
+	}
+
 	animations.push_back(new Animation("res/playerIdleUp.png", 32));
 	animations.push_back(new Animation("res/playerIdleDown.png", 32));
 	animations.push_back(new Animation("res/playerIdleRight.png", 32));

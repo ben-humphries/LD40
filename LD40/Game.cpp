@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include "Player.h"
 #include "Level.h"
-#include "Tile.h"
 
 
 float width = 1344;
@@ -17,6 +16,10 @@ clock_t Game::t;
 Player * player;
 
 std::vector<Light> Game::lights;
+
+std::vector<Tile*> Game::levelTiles;
+std::vector<Light*> Game::levelLights;
+std::vector<Enemy*> Game::enemies;
 
 sf::Texture lightTexture;
 sf::Sprite light;
@@ -106,9 +109,9 @@ void Game::Update() {
 
 	lights.clear();
 
-	std::vector<Tile*> levelTiles = level.getTiles();
-	std::vector<Light*> levelLights = level.getLights();
-	std::vector<Enemy*> enemies = level.getEnemies();
+	levelTiles = level.getTiles();
+	levelLights = level.getLights();
+	enemies = level.getEnemies();
 
 	player->update(dt);
 
@@ -124,11 +127,17 @@ void Game::Update() {
 
 
 	for (int i = 0; i < levelTiles.size(); i++) {
+		if (levelTiles[i]->id == 1) {
+			sf::Vector2i col = player->boundCollision(levelTiles[i]);
+			if (col.x != 0 || col.y != 0) {
+				LoadLevel("levels/testLevel.level");
+			}
+		}
 		player->boundCollision(levelTiles[i]);
 	}
 
 
-	window.clear(sf::Color(200,200,200,255));
+	window.clear(sf::Color(150,150,150,255));
 	lightMapTexture.clear(sf::Color(0, 0, 0));
 
 	for (int i = 0; i < levelLights.size(); i++) {
@@ -163,10 +172,9 @@ void Game::Update() {
 
 		sf::Vector2i col = enemies[i]->boundCollision(player);
 		if (col.x != 0 || col.y != 0) {
-			level.load("levels/testLevel.level");
+			LoadLevel("levels/testLevel.level");
 
-			player = new Player();
-			player->setPosition(level.getPlayerStart());
+			return;
 		}
 
 		window.draw(*enemies[i]);
@@ -222,4 +230,15 @@ void Game::ShowOptionsMenu() {
 
 void Game::ShowPauseMenu() {
 
+}
+
+void Game::LoadLevel(std::string dir) {
+	level.load(dir);
+
+	player->lightIntensity = 0;
+	player->setPosition(level.getPlayerStart());
+
+	enemies.clear();
+	levelTiles.clear();
+	levelLights.clear();
 }

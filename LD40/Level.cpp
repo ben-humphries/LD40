@@ -20,6 +20,10 @@ Level::~Level()
 
 void Level::load(std::string dir) {
 
+	tiles.clear();
+	enemies.clear();
+	lights.clear();
+
 	sf::Image levelImage;
 	if (!levelImage.loadFromFile(dir)) {
 		printf("Could not load level");
