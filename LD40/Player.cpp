@@ -108,6 +108,9 @@ void Player::handleInput(sf::Event e) {
 		else if (e.key.code == sf::Keyboard::M) {
 			lightIntensity += 2 * lightScrollSpeed;
 
+			 if (lightIntensity > 0.35) {
+				lightIntensity = 0.35;
+			}
 		}
 	}
 	else if (e.type == sf::Event::KeyReleased) {
@@ -199,6 +202,9 @@ void Player::handleInput(sf::Event e) {
 
 		if (lightIntensity < 0) {
 			lightIntensity = 0;
+		}
+		else if (lightIntensity > 0.35) {
+			lightIntensity = 0.35;
 		}
 	}
 }
