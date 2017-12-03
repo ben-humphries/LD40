@@ -36,7 +36,7 @@ public:
 	static std::vector<Enemy*> enemies;
 
 	static int currentLevel;
-	const static int numLevels = 15;
+	const static int numLevels = 17;
 
 };
 

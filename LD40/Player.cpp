@@ -36,7 +36,7 @@ Player::Player()
 
 	animationState = IdleDown;
 	Player::sprite = *(*animations.at(animationState)).getSprite(3.2, true);
-	collider = sf::FloatRect(8, 2, 10, 30);
+	collider = sf::FloatRect(8, 3, 10, 29);
 
 	if (!screamBuffer.loadFromFile("res/sound/screamsound.wav")) {
 		printf("Could not load scream sound.");
@@ -214,7 +214,7 @@ void Player::wakeEnemy(Enemy * enemy) {
 
 	float distance = sqrt(delta.x*delta.x + delta.y*delta.y);
 
-	if (distance < 50.0) {
+	if (distance < 10.0) {
 		scream.play();
 	}
 

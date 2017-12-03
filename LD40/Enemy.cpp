@@ -17,7 +17,7 @@ Enemy::Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale, int id)
 	animationState = Asleep;
 	Enemy::sprite = *(*animations.at(animationState)).getSprite(3.2, true);
 
-	collider = sf::FloatRect(12, 13, 7, 7);
+	collider = sf::FloatRect(12, 13, 9, 7);
 
 	this->id = id;
 
