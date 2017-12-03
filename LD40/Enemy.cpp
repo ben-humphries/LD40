@@ -2,7 +2,7 @@
 #include <math.h>
 
 
-Enemy::Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale) : GameObject(dir)
+Enemy::Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale, int id) : GameObject(dir)
 {
 	this->setPosition(position);
 	this->setScale(scale);
@@ -13,11 +13,18 @@ Enemy::Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale) : GameO
 	animations.push_back(new Animation("res/enemyAsleep.png", 32));
 	animations.push_back(new Animation("res/enemyAwake.png", 32));
 
+	state = AsleepState;
 	animationState = Asleep;
 	Enemy::sprite = *(*animations.at(animationState)).getSprite(3.2, true);
 
 	collider = sf::FloatRect(12, 13, 7, 7);
 
+	this->id = id;
+
+	if (id == 1) {
+		color = sf::Color(255, 111, 255, 255);
+		sprite.setColor(color);
+	}
 
 }
 
@@ -26,15 +33,36 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::update() {
-	if (awake) {
+Enemy::State Enemy::getState() {
+	return state;
+}
+
+void Enemy::setState(Enemy::State state) {
+	this->state = state;
+}
+
+void Enemy::update(float dt) {
+	if (state == AwakeState) {
 		animationState = Awake;
 	}
+	else if (state == AwakeDarkState && id == 1) {
+		darkTimer += dt;
+		if (darkTimer >= darkTime) {
+			darkTimer = 0;
+			state = AsleepState;
+			animationState = Asleep;
+		}
+	}
 	else {
+		state = AsleepState;
 		animationState = Asleep;
 	}
 
 	Enemy::sprite = *(*animations.at(animationState)).getSprite(3.2, true);
+
+	if (id == 1) {
+		sprite.setColor(color);
+	}
 
 }
 

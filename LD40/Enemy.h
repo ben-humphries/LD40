@@ -6,15 +6,26 @@ class Enemy :
 	public GameObject
 {
 public:
-	Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale);
+	Enemy(std::string dir, sf::Vector2f position, sf::Vector2f scale, int id);
 	~Enemy();
 
-	virtual void update();
+	virtual void update(float dt);
 	void followPlayer(GameObject * player, float dt);
 
 	float speed = 150;
 
-	bool awake = false;
+	enum State {AsleepState, AwakeState, AwakeDarkState};
+	State state;
+
+	sf::Color color;
+
+	int id;
+
+	State getState();
+	void setState(State state);
+
+	float darkTimer = 0;
+	float darkTime = 1;
 
 	std::vector<Animation*> animations;
 

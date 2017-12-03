@@ -36,6 +36,11 @@ sf::Music music;
 sf::Texture bgTexture;
 sf::Sprite background;
 
+sf::Font font;
+sf::Text text;
+
+std::vector<std::string> levelText;
+
 void Game::Start() {
 
 	gameState = Uninitialized;
@@ -52,8 +57,28 @@ void Game::Start() {
 
 	player = new Player();
 
+	if (!font.loadFromFile("res/courbd.ttf")) {
+		printf("Could not load font.");
+	}
+
+	levelText.push_back("Use the scroll wheel to expand your light.");
+	levelText.push_back("Beware: enemies wake when you shine your light on them.");
+	levelText.push_back("Good luck...");
+	levelText.push_back("");
+	levelText.push_back("");
+	levelText.push_back("");
+	levelText.push_back("These guys look a little... different...");
+
 	std::string dir = "levels/level" + std::to_string(currentLevel) + ".level";
 	LoadLevel(dir);
+
+
+	text.setFont(font);
+	text.setString(levelText[currentLevel]);
+	text.setCharacterSize(30);
+	text.setOrigin(text.getLocalBounds().width/2, text.getLocalBounds().height/2);
+	text.setPosition(sf::Vector2f(width / 2, height - 100));
+	text.setFillColor(sf::Color::White);
 
 	player->setPosition(level.getPlayerStart());
 
@@ -209,8 +234,8 @@ void Game::Update() {
 	for (int i = 0; i < enemies.size(); i++) {
 		player->wakeEnemy(enemies[i]);
 
-		if (enemies[i]->awake) { enemies[i]->followPlayer(player, dt); }
-		enemies[i]->update();
+		if (enemies[i]->getState() == Enemy::AwakeState || enemies[i]->getState() == Enemy::AwakeDarkState) { enemies[i]->followPlayer(player, dt); }
+		enemies[i]->update(dt);
 
 		sf::Vector2i col = enemies[i]->boundCollision(player);
 		if (col.x != 0 || col.y != 0) {
@@ -257,6 +282,9 @@ void Game::Update() {
 	circle.setOrigin(circle.getRadius(), circle.getRadius());
 	circle.setPosition(player->getPosition());
 	window.draw(circle);
+
+	text.setPosition(sf::Vector2f(width / 2, height - 100) + (view.getCenter() - view.getSize() / 2.0f));
+	window.draw(text);
 
 	window.display();
 
@@ -327,10 +355,13 @@ void Game::LoadLevel(std::string dir) {
 
 
 	player->lightIntensity = 0;
-	if (currentLevel == 6) {
+	/*if (currentLevel == 6) {
 		player->lightIntensity = 1;
-	}
+	}*/
 	player->setPosition(level.getPlayerStart());
+
+	text.setString(levelText[currentLevel]);
+	text.setOrigin(text.getLocalBounds().width / 2, text.getLocalBounds().height / 2);
 
 	enemies.clear();
 	levelTiles.clear();

@@ -3,7 +3,7 @@
 
 
 Player::Player()
-	: GameObject("res/testCharacter.png")
+	: GameObject("res/playerIdleDown.png")
 {
 
 	this->setPosition(200, 200);
@@ -190,9 +190,9 @@ void Player::wakeEnemy(Enemy * enemy) {
 	float distance = sqrt(delta.x*delta.x + delta.y*delta.y);
 
 	if (distance <= lightRadius * lightIntensity) {
-		enemy->awake = true;
+		enemy->setState(Enemy::AwakeState);
 	}
-	else {
-		enemy->awake = false;
+	else if(enemy->getState() == Enemy::AwakeState) {
+		enemy->setState(Enemy::AwakeDarkState);
 	}
 }

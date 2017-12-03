@@ -168,7 +168,7 @@ Menu::MenuAction Menu::getMenuResponse(sf::RenderWindow & window)
 		while (window.pollEvent(event)) {
 
 			if (event.type == sf::Event::MouseButtonPressed) {
-				printf("%d    %d   %d\n", event.mouseButton.x, event.mouseButton.y, menuType);
+				//printf("%d    %d   %d\n", event.mouseButton.x, event.mouseButton.y, menuType);
 				return click(event.mouseButton.x, event.mouseButton.y, window);
 			}
 			else if (event.type == sf::Event::Closed) {

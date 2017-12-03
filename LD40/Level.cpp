@@ -5,6 +5,7 @@
 #define TILE_WALL sf::Color(255,255,255,255)
 #define TILE_DOOR sf::Color(139, 69, 19, 255)
 #define ENEMY sf::Color(255,0,0,255)
+#define ENEMY_PINK sf::Color(255, 111, 255, 255)
 #define LIGHT sf::Color(255,255,0,255)
 
 float scale = 2;
@@ -46,7 +47,10 @@ void Level::load(std::string dir) {
 			tiles.push_back(new Tile(2, sf::Vector2f(i % height, i / height), sf::Vector2f(scale, scale)));
 		}
 		else if (currentPixel == ENEMY) {
-			enemies.push_back(new Enemy("res/testCharacter.png", sf::Vector2f(i % height * 32 * scale + 32, i / height * 32 * scale + 32), sf::Vector2f(scale, scale)));
+			enemies.push_back(new Enemy("res/enemyAsleep.png", sf::Vector2f(i % height * 32 * scale + 32, i / height * 32 * scale + 32), sf::Vector2f(scale, scale), 0));
+		}
+		else if (currentPixel == ENEMY_PINK) {
+			enemies.push_back(new Enemy("res/enemyAsleep.png", sf::Vector2f(i % height * 32 * scale + 32, i / height * 32 * scale + 32), sf::Vector2f(scale, scale), 1));
 		}
 		else if (currentPixel == LIGHT) {
 			lights.push_back(new Light(sf::Vector2f(i % height * 32 * scale, i / height * 32 * scale), sf::Vector2f(.21, .21) * scale, sf::Color(250,50,50,250)));
