@@ -21,7 +21,7 @@ std::vector<Tile*> Game::levelTiles;
 std::vector<Light*> Game::levelLights;
 std::vector<Enemy*> Game::enemies;
 
-int Game::currentLevel = 0;
+int Game::currentLevel = 8;
 
 sf::Texture lightTexture;
 sf::Sprite light;
@@ -112,7 +112,7 @@ void Game::Start() {
 
 	music.setLoop(true);
 	music.setVolume(50);
-	music.play();
+	//music.play();
 
 	if (!bgTexture.loadFromFile("res/background.png")) {
 		printf("Could not load background texture.");
