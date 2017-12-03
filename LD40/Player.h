@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "SFML\Audio.hpp"
 #include "Animation.h"
+#include "Enemy.h"
 
 class Player : public GameObject
 {
@@ -13,6 +14,7 @@ public:
 
 	void update(float dt);
 	void handleInput(sf::Event e);
+	void wakeEnemy(Enemy * enemy);
 
 	const float speed = 100;
 	sf::Vector2f velocity = sf::Vector2f(0, 0);
@@ -31,6 +33,7 @@ public:
 	enum AnimationState {IdleUp, IdleDown, IdleRight, IdleLeft, WalkUp, WalkDown, WalkRight, WalkLeft };
 	AnimationState animationState;
 
+	const int lightRadius = 1920 - 800;
 
 };
 

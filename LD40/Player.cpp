@@ -8,7 +8,7 @@ Player::Player()
 
 	this->setPosition(200, 200);
 	this->setScale(2, 2);
-	this->setOrigin(16, 16);
+	this->setOrigin(13, 16);
 	sprite.setColor(sf::Color::Red);
 
 	if (!footstepBuffer.loadFromFile("res/sound/footstep.wav")) {
@@ -173,5 +173,22 @@ void Player::handleInput(sf::Event e) {
 	else if (e.type == sf::Event::MouseWheelScrolled) {
 
 		lightIntensity += e.mouseWheelScroll.delta * lightScrollSpeed;
+
+		if (lightIntensity < 0) {
+			lightIntensity = 0;
+		}
+	}
+}
+
+void Player::wakeEnemy(Enemy * enemy) {
+	sf::Vector2f delta = enemy->getPosition() - this->getPosition();
+
+	float distance = sqrt(delta.x*delta.x + delta.y*delta.y);
+
+	if (distance <= lightRadius * lightIntensity) {
+		enemy->awake = true;
+	}
+	else {
+		enemy->awake = false;
 	}
 }

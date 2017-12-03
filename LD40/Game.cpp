@@ -107,7 +107,7 @@ void Game::Update() {
 
 
 	window.clear(sf::Color(200,200,200,255));
-	lightMapTexture.clear(sf::Color(5, 5, 5));
+	lightMapTexture.clear(sf::Color(0, 0, 0));
 
 	for (int i = 0; i < levelLights.size(); i++) {
 
@@ -134,11 +134,22 @@ void Game::Update() {
 	}
 
 	for (int i = 0; i < enemies.size(); i++) {
-		enemies[i]->followPlayer(player, dt);
+		player->wakeEnemy(enemies[i]);
+
+		if (enemies[i]->awake) { enemies[i]->followPlayer(player, dt); }
 		window.draw(*enemies[i]);
 	}
 
 	window.draw(lightMap, sf::BlendMultiply);
+
+	sf::CircleShape circle;
+	circle.setRadius(player->lightRadius * player->lightIntensity);
+	circle.setOutlineColor(sf::Color(200,200,200,50));
+	circle.setFillColor(sf::Color(0, 0, 0, 0));
+	circle.setOutlineThickness(1);
+	circle.setOrigin(circle.getRadius(), circle.getRadius());
+	circle.setPosition(player->getPosition());
+	window.draw(circle);
 
 	window.display();
 

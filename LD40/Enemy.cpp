@@ -19,7 +19,7 @@ Enemy::~Enemy()
 }
 
 
-void Enemy::followPlayer(Player * player, float dt) {
+void Enemy::followPlayer(GameObject * player, float dt) {
 
 	//Get unit vector of direction to player
 	float theta = atan2(getPosition().y - player->getPosition().y, getPosition().x - player->getPosition().x);
