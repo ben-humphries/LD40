@@ -106,7 +106,29 @@ Menu::MenuAction Menu::show(sf::RenderWindow & window)
 		items.push_back(backButton);
 	}
 	else if (menuType == DeathMenu) {
+		if (!texture.loadFromFile("res/deathmenu.png")) {
+			printf("could not load Death Menu texture");
+		}
+		sprite.setTexture(texture);
+		sprite.move(offset);
 
+		//set up button coords
+		MenuItem resume;
+		resume.rect.top = 300;
+		resume.rect.left = 570;
+		resume.rect.width = 230;
+		resume.rect.height = 36;
+		resume.action = Play;
+
+		MenuItem backButton;
+		backButton.rect.top = 530;
+		backButton.rect.left = 530;
+		backButton.rect.width = 290;
+		backButton.rect.height = 36;
+		backButton.action = ToMenu;
+
+		items.push_back(resume);
+		items.push_back(backButton);
 	}
 
 	window.draw(sprite);

@@ -35,5 +35,8 @@ public:
 	static std::vector<Light*> levelLights;
 	static std::vector<Enemy*> enemies;
 
+	static int currentLevel;
+	const static int numLevels = 2;
+
 };
 

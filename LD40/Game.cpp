@@ -21,6 +21,8 @@ std::vector<Tile*> Game::levelTiles;
 std::vector<Light*> Game::levelLights;
 std::vector<Enemy*> Game::enemies;
 
+int Game::currentLevel = 0;
+
 sf::Texture lightTexture;
 sf::Sprite light;
 
@@ -48,7 +50,8 @@ void Game::Start() {
 	sf::VideoMode desktopSize = sf::VideoMode::getDesktopMode();
 	window.setPosition(sf::Vector2i(desktopSize.width / 2 - width / 2, desktopSize.height / 2 - height / 2));
 
-	level.load("levels/testLevel.level");
+	level.load("levels/level0.level");
+	currentLevel = 0;
 
 	player = new Player();
 	player->setPosition(level.getPlayerStart());
@@ -118,9 +121,9 @@ void Game::Update() {
 							break;
 						case Menu::ToMenu:
 							gameState = MainMenu;
-							//view.reset(sf::FloatRect(0, 0, width, height));
 							window.setView(sf::View(sf::FloatRect(0, 0, width, height)));
-							LoadLevel("levels/testLevel.level");
+							LoadLevel("levels/level0.level");
+							currentLevel = 0;
 							break;
 						case Menu::Exit:
 							gameState = Exiting;
@@ -161,7 +164,12 @@ void Game::Update() {
 		if (levelTiles[i]->id == 2) {
 			sf::Vector2i col = player->boundCollision(levelTiles[i]);
 			if (col.x != 0 || col.y != 0) {
-				LoadLevel("levels/testLevel.level");
+				currentLevel++;
+				if (currentLevel == numLevels) {
+					currentLevel = 0;
+				}
+				std::string dir = "levels/level" + std::to_string(currentLevel) + ".level";
+				LoadLevel(dir);
 			}
 		}
 		player->boundCollision(levelTiles[i]);
@@ -205,8 +213,34 @@ void Game::Update() {
 
 		sf::Vector2i col = enemies[i]->boundCollision(player);
 		if (col.x != 0 || col.y != 0) {
-			LoadLevel("levels/testLevel.level");
+			
+			gameState = Paused;
+			while (gameState == Paused) {
+				player->footstep.stop();
 
+
+				Menu deathMenu(Menu::DeathMenu, view.getCenter() - view.getSize() / 2.0f);
+				Menu::MenuAction deathAction = deathMenu.show(window);
+
+				switch (deathAction) {
+				case Menu::Play: {
+					std::string dir = "levels/level" + std::to_string(currentLevel) + ".level";
+					LoadLevel(dir);
+					printf("here");
+					gameState = Running;
+					break;
+				}
+				case Menu::ToMenu:
+					gameState = MainMenu;
+					window.setView(sf::View(sf::FloatRect(0, 0, width, height)));
+					LoadLevel("levels/level0.level");
+					currentLevel = 0;
+					break;
+				case Menu::Exit:
+					gameState = Exiting;
+					break;
+				}
+			}
 			return;
 		}
 
@@ -285,6 +319,25 @@ void Game::ShowPauseMenu() {
 
 void Game::LoadLevel(std::string dir) {
 	level.load(dir);
+	player->footstep.stop();
+
+	bool movingUp = player->movingUp;
+	bool movingDown = player->movingDown;
+	bool movingRight = player->movingRight;
+	bool movingLeft = player->movingLeft;
+	Player::AnimationState animationState = player->animationState;
+
+	sf::Vector2f velocity = player->velocity;
+
+	player = new Player();
+
+	player->movingUp = movingUp;
+	player->movingDown = movingDown;
+	player->movingRight = movingRight;
+	player->movingLeft = movingLeft;
+	player->velocity = velocity;
+
+	player->animationState = animationState;
 
 	player->lightIntensity = 0;
 	player->setPosition(level.getPlayerStart());
