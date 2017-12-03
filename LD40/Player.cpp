@@ -3,24 +3,33 @@
 
 
 Player::Player()
-	: light(sf::Vector2f(0, 0), sf::Vector2f(0, 0), sf::Color::White)
-	, GameObject("res/testCharacter.png")
+	: GameObject("res/testCharacter.png")
 {
 
 	this->setPosition(200, 200);
-	this->setScale(1.5, 1.5);
+	this->setScale(2, 2);
 	this->setOrigin(16, 16);
 	sprite.setColor(sf::Color::Red);
-
-	collider = sf::FloatRect(0, 0, 32, 32);
-
-	light.setPosition(this->getPosition().x, this->getPosition().y);
 
 	if (!footstepBuffer.loadFromFile("res/sound/footstep.wav")) {
 		printf("Could not load footstep sound");
 	}
 	footstep.setBuffer(footstepBuffer);
 	footstep.setLoop(true);
+
+	animations.push_back(new Animation("res/playerIdleUp.png", 32));
+	animations.push_back(new Animation("res/playerIdleDown.png", 32));
+	animations.push_back(new Animation("res/playerIdleRight.png", 32));
+	animations.push_back(new Animation("res/playerIdleLeft.png", 32));
+	animations.push_back(new Animation("res/playerWalkUp.png", 32));
+	animations.push_back(new Animation("res/playerWalkDown.png", 32));
+	animations.push_back(new Animation("res/playerWalkRight.png", 32));
+	animations.push_back(new Animation("res/playerWalkLeft.png", 32));
+
+
+	animationState = IdleDown;
+	Player::sprite = *(*animations.at(animationState)).getSprite(3.2, true);
+	collider = sf::FloatRect(8, 2, 10, 30);
 }
 
 
@@ -30,14 +39,6 @@ Player::~Player()
 
 void Player::update(float dt) {
 
-	currentTime += dt;
-
-	if (currentTime > 0.3) {
-		currentTime = 0;
-	}
-	if (velocity.x == 0 && velocity.y == 0) {
-		currentTime = 0;
-	}
 
 	if ((velocity.x != 0 || velocity.y != 0) && footstep.getStatus() != footstep.Playing) {
 		footstep.play();
@@ -49,7 +50,7 @@ void Player::update(float dt) {
 	
 	this->move(velocity * dt);
 
-	light.setScale(1, 1);
+	Player::sprite = *(*animations.at(animationState)).getSprite(3.2, true);
 
 	Game::lights.push_back(Light(sf::Vector2f(getPosition()), sf::Vector2f(lightIntensity,lightIntensity), sf::Color(200,200,200,255)));
 }
@@ -60,18 +61,30 @@ void Player::handleInput(sf::Event e) {
 		if (e.key.code == sf::Keyboard::W || e.key.code == sf::Keyboard::Up) {
 			movingUp = true;
 			velocity.y = -speed;
+			animationState = WalkUp;
 		}
 		else if (e.key.code == sf::Keyboard::S || e.key.code == sf::Keyboard::Down) {
 			movingDown = true;
 			velocity.y = speed;
+			animationState = WalkDown;
 		}
 		else if (e.key.code == sf::Keyboard::A || e.key.code == sf::Keyboard::Left) {
 			movingLeft = true;
 			velocity.x = -speed;
+			animationState = WalkLeft;
+
+			if (movingUp) {
+				animationState = WalkUp;
+			}
 		}
 		else if (e.key.code == sf::Keyboard::D || e.key.code == sf::Keyboard::Right) {
 			movingRight = true;
 			velocity.x = speed;
+			animationState = WalkRight;
+
+			if (movingUp) {
+				animationState = WalkUp;
+			}
 		}
 	}
 	else if (e.type == sf::Event::KeyReleased) {
@@ -79,36 +92,81 @@ void Player::handleInput(sf::Event e) {
 			movingUp = false;
 			if (movingDown) {
 				velocity.y = speed;
+				animationState = WalkDown;
 			}
 			else {
 				velocity.y = 0;
+				animationState = IdleUp;
+
+				if (movingLeft) {
+					animationState = WalkLeft;
+				}
+				else if (movingRight) {
+					animationState = WalkRight;
+				}
 			}
 		}
 		else if(e.key.code == sf::Keyboard::S || e.key.code == sf::Keyboard::Down) {
 			movingDown = false;
 			if (movingUp) {
 				velocity.y = -speed;
+				animationState = WalkUp;
 			}
 			else {
 				velocity.y = 0;
+				animationState = IdleDown;
+
+				if (movingLeft) {
+					animationState = WalkLeft;
+				}
+				else if (movingRight) {
+					animationState = WalkRight;
+				}
 			}
 		}
 		else if (e.key.code == sf::Keyboard::A || e.key.code == sf::Keyboard::Left) {
 			movingLeft = false;
 			if (movingRight) {
 				velocity.x = speed;
+				animationState = WalkRight;
+
+				if (movingUp) {
+					animationState = WalkUp;
+				}
 			}
 			else {
 				velocity.x = 0;
+				animationState = IdleLeft;
+
+				if (movingUp) {
+					animationState = WalkUp;
+				}
+				else if (movingDown) {
+					animationState = WalkDown;
+				}
 			}
+
 		}
 		else if(e.key.code == sf::Keyboard::D || e.key.code == sf::Keyboard::Right) {
 			movingRight = false;
 			if (movingLeft) {
 				velocity.x = -speed;
+				animationState = WalkLeft;
+
+				if (movingUp) {
+					animationState = WalkUp;
+				}
 			}
 			else {
 				velocity.x = 0;
+				animationState = IdleRight;
+
+				if (movingUp) {
+					animationState = WalkUp;
+				}
+				else if (movingDown) {
+					animationState = WalkDown;
+				}
 			}
 		}
 	}

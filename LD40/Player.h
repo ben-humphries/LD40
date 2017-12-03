@@ -3,6 +3,7 @@
 #include "Light.h"
 #include "Game.h"
 #include "SFML\Audio.hpp"
+#include "Animation.h"
 
 class Player : public GameObject
 {
@@ -13,20 +14,22 @@ public:
 	void update(float dt);
 	void handleInput(sf::Event e);
 
-	const float speed = 200;
+	const float speed = 100;
 	sf::Vector2f velocity = sf::Vector2f(0, 0);
 
 	bool movingRight, movingLeft;
 	bool movingUp, movingDown;
 
-	Light light;
 	float lightIntensity;
 	const float lightScrollSpeed = 0.01;
 
-	float currentTime;
-
 	sf::SoundBuffer footstepBuffer;
 	sf::Sound footstep;
+
+	std::vector<Animation*> animations;
+
+	enum AnimationState {IdleUp, IdleDown, IdleRight, IdleLeft, WalkUp, WalkDown, WalkRight, WalkLeft };
+	AnimationState animationState;
 
 
 };
