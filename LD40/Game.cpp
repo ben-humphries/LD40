@@ -70,7 +70,7 @@ void Game::Start() {
 	music.setLoop(true);
 	music.play();
 
-	gameState = Menu;
+	gameState = MainMenu;
 	while (gameState != Exiting) {
 		Game::Update();
 	}
@@ -98,7 +98,7 @@ void Game::Update() {
 
 			break;
 
-		case Menu:
+		case MainMenu:
 			ShowMenu();
 			break;
 		}
@@ -189,23 +189,23 @@ void Game::Update() {
 
 void Game::ShowMenu() {
 
-	while (gameState == Menu) {
-		MainMenu mainMenu;
-		MainMenu::MenuAction action = mainMenu.show(window);
+	while (gameState == MainMenu) {
+		Menu mainMenu;
+		Menu::MenuAction action = mainMenu.show(window);
 
 		switch (action) {
-		case MainMenu::Nothing:
+		case Menu::Nothing:
 			continue;
 
-		case MainMenu::Exit:
+		case Menu::Exit:
 			gameState = Exiting;
 			break;
 
-		case MainMenu::Play:
+		case Menu::Play:
 			gameState = Running;
 			break;
 
-		case MainMenu::Options:
+		case Menu::Options:
 			//showOptionsMenu();
 			break;
 		}

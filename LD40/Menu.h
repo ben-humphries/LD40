@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 
-class MainMenu
+class Menu
 {
 public:
 	enum MenuAction { Nothing, Exit, Play, Options };

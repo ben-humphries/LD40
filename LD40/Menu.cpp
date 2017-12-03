@@ -1,6 +1,6 @@
-#include "MainMenu.h"
+#include "Menu.h"
 
-MainMenu::MenuAction MainMenu::show(sf::RenderWindow & window)
+Menu::MenuAction Menu::show(sf::RenderWindow & window)
 {
 	window.clear();
 
@@ -43,7 +43,7 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow & window)
 
 }
 
-MainMenu::MenuAction MainMenu::click(int x, int y, sf::RenderWindow & window)
+Menu::MenuAction Menu::click(int x, int y, sf::RenderWindow & window)
 {
 
 	for (MenuItem &item : items) {
@@ -65,7 +65,7 @@ MainMenu::MenuAction MainMenu::click(int x, int y, sf::RenderWindow & window)
 	return Nothing;
 }
 
-MainMenu::MenuAction MainMenu::getMenuResponse(sf::RenderWindow & window)
+Menu::MenuAction Menu::getMenuResponse(sf::RenderWindow & window)
 {
 	sf::Event event;
 

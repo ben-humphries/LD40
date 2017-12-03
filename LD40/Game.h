@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Light.h"
-#include "MainMenu.h"
+#include "Menu.h"
 
 class Game
 {
@@ -18,7 +18,7 @@ public:
 	static void Update();
 
 
-	enum GameState {Uninitialized, Running, Paused, Exiting, Menu};
+	enum GameState {Uninitialized, Running, Paused, Exiting, MainMenu};
 
 	static GameState gameState;
 	static clock_t t;
