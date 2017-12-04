@@ -21,7 +21,7 @@ std::vector<Tile*> Game::levelTiles;
 std::vector<Light*> Game::levelLights;
 std::vector<Enemy*> Game::enemies;
 
-int Game::currentLevel = 16;
+int Game::currentLevel = 0;
 
 sf::Texture lightTexture;
 sf::Sprite light;
@@ -82,6 +82,8 @@ void Game::Start() {
 	levelText.push_back("Looks like someone's on your tail...");
 	levelText.push_back("");
 	levelText.push_back("");
+	levelText.push_back("Congratulations! You win! Press ESC to exit.");
+
 
 
 
@@ -290,6 +292,7 @@ void Game::Update() {
 				case Menu::Play: {
 					std::string dir = "levels/level" + std::to_string(currentLevel) + ".level";
 					LoadLevel(dir);
+					player->setPosition(level.getPlayerStart());
 					gameState = Running;
 					break;
 				}

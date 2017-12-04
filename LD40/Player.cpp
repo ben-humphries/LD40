@@ -18,7 +18,7 @@ Player::Player()
 	}
 	footstep.setBuffer(footstepBuffer);
 	footstep.setLoop(true);
-	footstep.setVolume(40);
+	footstep.setVolume(10);
 
 	if (footstep.getStatus() == footstep.Playing) {
 		footstep.stop();
@@ -42,6 +42,7 @@ Player::Player()
 		printf("Could not load scream sound.");
 	}
 	scream.setBuffer(screamBuffer);
+	scream.setVolume(10);
 }
 
 

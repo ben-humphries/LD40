@@ -13,7 +13,7 @@ public:
 	virtual void update(float dt);
 	void followPlayer(GameObject * player, float dt);
 
-	float speed = 150;
+	float speed = 100;
 
 	enum State {AsleepState, AwakeState, AwakeDarkState};
 	State state;
